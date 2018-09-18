@@ -71,15 +71,15 @@ export default {
                 contentType: opt.contentType,
                 cache: false,
                 success(data) {
-                    if (data.ret === '0') {
-                        resolve(data.content);
-                    }
-                    else if (data.ret === 'NO_LOGIN') {
-                        self.goLogin(data.content);
-                    }
-                    else {
-                        reject(data.msg);
-                    }
+                    // if (data.ret === '0') {
+                        resolve(data);
+                    // }
+                    // else if (data.ret === 'NO_LOGIN') {
+                    //     self.goLogin(data.content);
+                    // }
+                    // else {
+                    //     reject(data.msg);
+                    // }
                 },
                 error(xhr, type) {
                     reject('网络异常');

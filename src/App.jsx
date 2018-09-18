@@ -1,8 +1,10 @@
 import React from 'react';
 import {Component} from 'react';
+import {Provider} from 'react-redux';
+import {connect} from 'react-redux';
 import * as api from '../src/api/api';
 
-export default class App extends Component {
+class App extends Component {
 
 
     constructor(props) {
@@ -11,23 +13,24 @@ export default class App extends Component {
     }
 
     onClickBack = () => {
-        api.getProjects()
-            .then(data => {
-                console.log(data)
-            })
-            .catch(e => {
-
-            });
+       console.log(this.props.state)
     };
 
 
     render() {
         return (
-            <div>
-                <button onClick={this.onClickBack} value={"aaa"}/>
-            </div>
+            <Provider store={this.props.store}>
+                <div>
+                    <button onClick={this.onClickBack} value={"aaa"}/>
+                </div>
+            </Provider>
         );
     }
 }
 
+const mapStateToProps = state => {
+    return {state};
+};
+
+export default connect(mapStateToProps)(App);
 
