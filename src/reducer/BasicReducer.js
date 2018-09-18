@@ -6,7 +6,6 @@ export const pageInfo = (state = {
     error_url: "",
     sign_key: ""
 }, action) => {
-    console.log(action);
     switch (action.type) {
         case actionTypes.INIT:
             return {
