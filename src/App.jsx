@@ -2,7 +2,6 @@ import React from 'react';
 import {Component} from 'react';
 import {Provider} from 'react-redux';
 import {connect} from 'react-redux';
-import * as api from '../src/api/api';
 
 class App extends Component {
 
