@@ -1,16 +1,12 @@
-var webpack = require('webpack');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HappyPack = require('happypack');
 const path = require('path');
 const os = require('os');
 const happyThreadPool = HappyPack.ThreadPool({size: os.cpus().length});
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CSSSplitWebpackPlugin = require('css-split-webpack-plugin').default;
 
 module.exports = {
     entry: './src/index.tsx',
-    mode: 'development',
     context: __dirname,
     output: {
         publicPath: '/',
@@ -30,7 +26,6 @@ module.exports = {
             }, {
                 test: /\.(css|less)$/,
                 use: [
-                    // MiniCssExtractPlugin.loader,
                     {
                         loader: 'style-loader'
                     },
@@ -77,6 +72,16 @@ module.exports = {
                     }
                 ],
                 exclude: path.resolve(__dirname, 'node_modules')
+            },
+            {
+                test: /\.(jpg|jpeg|bmp|png|webp|gif)$/,
+                loader: 'url-loader',
+                options: {
+                    limit: 8 * 1024,
+                    name: 'img/[name].[hash:8].[ext]',
+                    // outputPath: config.assetsDirectory,
+                    // publicPath: config.assetsRoot
+                }
             }
         ],
     },
@@ -87,53 +92,14 @@ module.exports = {
             '@': path.resolve(__dirname, 'src')
         }
     },
-    // devtool: 'eval-source-map',
-    devServer: {
-        contentBase: './dist',
-        port: 8080,
-        hot: true,
-        historyApiFallback: true,
-        host: '0.0.0.0',
-        // open:true,
-        disableHostCheck: true,
-        headers: {
-            'Access-Control-Allow-Origin': '*'
-        },
-        proxy: {
-            '/test/*': {
-                target: 'http://127.0.0.1:3001',
-                changeOrigin: true,
-                secure: false,
-                // 替换包含test的接口
-                pathRewrite: {
-                    '^/test/*': ''
-                }
-            }
-        }
-    },
     plugins: [
-        new CleanWebpackPlugin({
-            verbose: true,
-        }),
         new HtmlWebpackPlugin({
             template: './src/index.html'
         }),
         new webpack.ProvidePlugin({
             $: 'jquery'
         }),
-        new MiniCssExtractPlugin({
-            filename: 'assets/css/[name].css',
-            chunkFilename: 'assets/css/[id].css'
-        }),
-        new CSSSplitWebpackPlugin({
-            size: 4000,
-            filename: 'assets/css/[name]-[part].[ext]'
-        }),
         new webpack.DefinePlugin({}),
-        new webpack.optimize.MinChunkSizePlugin({
-            minChunkSize: 4000 // Minimum number of characters
-        }),
-        new webpack.HotModuleReplacementPlugin(),
         new HappyPack({
             id: 'unHappy',
             loaders: [{
