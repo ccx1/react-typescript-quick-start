@@ -14,8 +14,8 @@ module.exports = {
     context: __dirname,
     output: {
         publicPath: '/',
-        filename: 'assets/rpa-flow/js/[name].js',
-        chunkFilename: 'assets/rpa-flow/js/[name].js'
+        filename: 'assets/js/[name].js',
+        chunkFilename: 'assets/js/[name].js'
     },
     module: {
         rules: [
