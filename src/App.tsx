@@ -1,9 +1,12 @@
-import React from 'react';
 import {Component} from 'react';
 import {Provider} from 'react-redux';
 import {connect} from 'react-redux';
+import '@/App.less';
+import {Button} from "antd";
+import * as React from "react";
+import Sider from "@/Sider.tsx";
 
-class App extends Component {
+class App extends Component<any,any> {
 
 
     constructor(props) {
@@ -20,7 +23,8 @@ class App extends Component {
         return (
             <Provider store={this.props.store}>
                 <div>
-                    <button onClick={this.onClickBack} value={"aaa"}/>
+                    <Button onClick={this.onClickBack}>测试</Button>
+                    <Sider/>
                 </div>
             </Provider>
         );

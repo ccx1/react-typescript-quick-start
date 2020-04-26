@@ -1,33 +1,91 @@
 var webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const HappyPack = require('happypack');
 const path = require('path');
-module.exports = {
-    entry: [
-        'babel-polyfill',
-        './src/index'
-    ],
-    mode: 'development',
-    output: {
-        publicPath: '/'
-    },
+const os = require('os');
+const happyThreadPool = HappyPack.ThreadPool({size: os.cpus().length});
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CSSSplitWebpackPlugin = require('css-split-webpack-plugin').default;
 
+module.exports = {
+    entry: './src/index.tsx',
+    mode: 'development',
+    context: __dirname,
+    output: {
+        publicPath: '/',
+        filename: 'assets/rpa-flow/js/[name].js',
+        chunkFilename: 'assets/rpa-flow/js/[name].js'
+    },
     module: {
-        rules: [{
-            test: /\.js[x]?$/,
-            // include: path.resolve(__dirname, 'src'),
-            exclude: /node_modules/,
-            loader: 'babel-loader?cacheDirectory',
-            // query: {
-            //     presets: ['env', 'react', "stage-1"]
-            // }
-        }, {
-            test: /\.css$/,
-            loader: "style-loader!css-loader"
-        }],
+        rules: [
+            {
+                test: /\.ts[x]?$/,
+                exclude: /node_modules/,
+                loader: 'happypack/loader?id=unHappy'
+            }, {
+                test: /\.js[x]?$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader?cacheDirectory',
+            }, {
+                test: /\.(css|less)$/,
+                use: [
+                    // MiniCssExtractPlugin.loader,
+                    {
+                        loader: 'style-loader'
+                    },
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            importLoaders: 1
+                        }
+                    }, {
+                        loader: 'postcss-loader',
+                        options: {
+                            config: {
+                                path: path.resolve(__dirname)
+                            }
+                        }
+                    },
+                    {
+                        loader: 'less-loader',
+                        options: {
+                            javascriptEnabled: true
+                        }
+                    }
+                ],
+                exclude: [/\.useable\.less$/, /node_modules\/?!(antd)/]
+            },
+            {
+                test: /\.useable\.less$/,
+                use: [{
+                    loader: 'style-loader'
+                },
+                    {
+                        loader: 'css-loader'
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            config: {
+                                path: path.resolve(__dirname)
+                            }
+                        }
+                    },
+                    {
+                        loader: 'less-loader'
+                    }
+                ],
+                exclude: path.resolve(__dirname, 'node_modules')
+            }
+        ],
     },
     resolve: {
-        extensions: ['.js', '.jsx'],
-        modules: [path.resolve(__dirname, 'node_modules')]
+        extensions: ['tsx', 'ts', '.js', '.jsx'],
+        modules: [path.resolve(__dirname, 'node_modules')],
+        alias: {
+            '@': path.resolve(__dirname, 'src')
+        }
     },
     // devtool: 'eval-source-map',
     devServer: {
@@ -35,7 +93,7 @@ module.exports = {
         port: 8080,
         hot: true,
         historyApiFallback: true,
-        host: '127.0.0.1',
+        host: '0.0.0.0',
         // open:true,
         disableHostCheck: true,
         headers: {
@@ -54,13 +112,35 @@ module.exports = {
         }
     },
     plugins: [
+        new CleanWebpackPlugin({
+            verbose: true,
+        }),
         new HtmlWebpackPlugin({
             template: './src/index.html'
         }),
         new webpack.ProvidePlugin({
             $: 'jquery'
         }),
-        new webpack.NamedModulesPlugin(),
-        new webpack.HotModuleReplacementPlugin()
+        new MiniCssExtractPlugin({
+            filename: 'assets/css/[name].css',
+            chunkFilename: 'assets/css/[id].css'
+        }),
+        new CSSSplitWebpackPlugin({
+            size: 4000,
+            filename: 'assets/css/[name]-[part].[ext]'
+        }),
+        new webpack.DefinePlugin({}),
+        new webpack.optimize.MinChunkSizePlugin({
+            minChunkSize: 4000 // Minimum number of characters
+        }),
+        new webpack.HotModuleReplacementPlugin(),
+        new HappyPack({
+            id: 'unHappy',
+            loaders: [{
+                loader: 'babel-loader?cacheDirectory=true'
+            }],
+            threadPool: happyThreadPool,
+            verbose: true
+        })
     ]
 };
