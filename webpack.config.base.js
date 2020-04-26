@@ -10,8 +10,8 @@ module.exports = {
     context: __dirname,
     output: {
         publicPath: '/',
-        filename: 'assets/js/[name].js',
-        chunkFilename: 'assets/js/[name].js'
+        filename: 'assets/js/[name].[hash:8].js',
+        chunkFilename: 'assets/js/[name].[hash:8].js'
     },
     module: {
         rules: [
