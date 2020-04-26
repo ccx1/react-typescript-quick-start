@@ -1,6 +1,5 @@
 /**
  * @file saga
- * @author v_yangpei@baidu.com
  */
 import {effects} from 'redux-saga';
 import actions from '../action/action';

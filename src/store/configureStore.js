@@ -1,6 +1,5 @@
 /**
  * @file redux store
- * @author v_yangpei@baidu.com
  */
 import {createStore, applyMiddleware} from 'redux';
 import createSagaMiddleware from 'redux-saga';
