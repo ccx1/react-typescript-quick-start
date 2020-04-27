@@ -1,12 +1,14 @@
-import Home from '@/page/home';
+import * as React from 'react';
 
+const {lazy} = React;
 export const basename = '';
+const lazyHome = lazy(() => import('@/page/home'));
 
 export const routers = [
     {
         path: '/',
         exact: true,
-        component: Home,
+        component: lazyHome,
         name: 'home',
         title: 'home'
     },
@@ -14,7 +16,7 @@ export const routers = [
     {
         path: '*',
         exact: true,
-        component: Home,
+        component: lazyHome,
         name: '404',
         title: '404'
     }
