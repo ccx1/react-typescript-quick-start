@@ -2,8 +2,8 @@ import 'babel-polyfill';
 import * as React from 'react';
 import {render} from 'react-dom';
 import App from '@/App.tsx';
-import configureStore from './store/configureStore';
-import rootSaga from './saga/saga';
+import configureStore from '@/store/configureStore';
+import rootSaga from '@/saga/saga';
 
 const store = configureStore();
 store.runSaga(rootSaga);

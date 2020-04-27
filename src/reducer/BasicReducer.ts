@@ -1,7 +1,14 @@
 // import * as actionTypes from '../action/action';
 import * as actionTypes from '../conts/actionType';
 
-export const pageInfo = (state = {
+export interface IPageInfo{
+    ad_url:string,
+    error_url:string,
+    sign_key:string
+}
+
+
+export const pageInfo = (state:IPageInfo = {
     ad_url: "",
     error_url: "",
     sign_key: ""

@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
-import * as BasicReducer from './BasicReducer';
+import {pageInfo} from './BasicReducer.ts';
 
 export default combineReducers({
-    ...BasicReducer
+    pageInfo
 });

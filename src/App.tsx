@@ -1,39 +1,20 @@
-import {Component} from 'react';
-import {Provider} from 'react-redux';
-import {connect} from 'react-redux';
+import {BrowserRouter} from 'react-router-dom';
 import '@/App.less';
-import {Button} from "antd";
 import * as React from "react";
-import {Slider} from "@/Sider.tsx";
+import * as Routers from '@/conts/routers.ts';
+import renderRoutes from "@/utils/renderRoute.tsx";
+import {Provider} from "react-redux";
 
-class App extends Component<any,any> {
-
-
-    constructor(props) {
-        super(props);
-        this.state = {}
-    }
-
-    onClickBack = () => {
-       console.log(this.props.state)
-    };
-
-
-    render() {
-        return (
-            <Provider store={this.props.store}>
-                <div>
-                    <Button onClick={this.onClickBack}>测试</Button>
-                    <Slider/>
-                </div>
-            </Provider>
-        );
-    }
-}
-
-const mapStateToProps = state => {
-    return {state};
+const App: React.FC = (props: any) => {
+    return (<Provider store={props.store}>
+        <BrowserRouter
+            basename={Routers.basename}>
+            {
+                renderRoutes(Routers.routers)
+            }
+        </BrowserRouter>
+    </Provider>)
 };
 
-export default connect(mapStateToProps)(App);
+export default App;
 
