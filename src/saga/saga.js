@@ -3,7 +3,6 @@
  */
 import {effects} from 'redux-saga';
 import actions from '../action/action';
-import * as actionTypes from '../conts/actionType';
 import * as api from '../api/api';
 
 const {fork, put, call, take, all, select} = effects;

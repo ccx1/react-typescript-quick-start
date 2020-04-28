@@ -4,18 +4,20 @@ import * as React from "react";
 import * as Routers from '@/conts/routers.ts';
 import renderRoutes from "@/utils/renderRoute.tsx";
 import {Provider} from "react-redux";
-const {Suspense} = React;
 
+// const {Suspense} = React;
+
+// 懒加载添加Suspense
 const App: React.FC = (props: any) => {
     return (<Provider store={props.store}>
-        <Suspense fallback={<div>懒加载</div>}>
+        <React.Suspense fallback={<div>懒加载</div>}>
             <BrowserRouter
                 basename={Routers.basename}>
                 {
                     renderRoutes(Routers.routers)
                 }
             </BrowserRouter>
-        </Suspense>
+        </React.Suspense>
     </Provider>)
 };
 
