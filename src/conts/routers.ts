@@ -1,8 +1,5 @@
 import * as React from 'react';
-// import Home from '@/page/home';
 export const basename = '';
-
-// const Home = lazy(() => import('@/page/home'));
 
 interface IRoute {
     path: string,
@@ -12,7 +9,7 @@ interface IRoute {
     title: string
 }
 
-const routerArray: IRoute[] = [
+const routerConfig: IRoute[] = [
     {
         path: '/',
         exact: true,
@@ -36,14 +33,21 @@ const routerArray: IRoute[] = [
     }
 ];
 
+
+function wrapAsyncRoute(componentPath) {
+    return React.lazy(() => import(`@/page${componentPath}`));
+}
+
+
+function wrapRoutePath(routers: Array<IRoute>) {
+    return routers.map((router) => ({
+            ...router,
+            component:wrapAsyncRoute(router.component)
+        }));
+}
+
 // 需要懒加载,因为webpack不支持完全动态注入，所以@拼字符串。然后再动态变量
-export const routers = routerArray.map((router) => {
-    const component = React.lazy(() => import(`@/page${router.component}`));
-    return {
-        ...router,
-        component
-    }
-});
+export const routers = wrapRoutePath(routerConfig);
 
 // 加载路由前
 export const beforeRouter = (route: IRoute) => {
