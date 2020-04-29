@@ -4,13 +4,15 @@ import * as React from "react";
 import * as Routers from '@/conts/routers.ts';
 import renderRoutes from "@/utils/renderRoute.tsx";
 import {Provider} from "react-redux";
+import {Spin} from "antd";
 
 // const {Suspense} = React;
 
 // 懒加载添加Suspense
 const App: React.FC = (props: any) => {
     return (<Provider store={props.store}>
-        <React.Suspense fallback={<div>懒加载</div>}>
+        <React.Suspense fallback={<Spin style={
+            {width: '100%', height: '100%', paddingTop: '20%'}}/>}>
             <BrowserRouter
                 basename={Routers.basename}>
                 {

@@ -25,6 +25,13 @@ const routerConfig: IRoute[] = [
         title: '首页'
     },
     {
+        path: '/login',
+        exact: true,
+        component: '/login',
+        name: 'home',
+        title: '登陆'
+    },
+    {
         path: '*',
         exact: true,
         component: '/home',
