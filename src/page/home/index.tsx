@@ -1,13 +1,16 @@
 import * as React from 'react';
 import {connect} from "react-redux";
 import {IPageInfo} from "@/reducer/BasicReducer";
+import {Link, RouteComponentProps} from "react-router-dom";
+import {Dispatch} from "redux";
 
 interface IHomeState {
 
 }
 
-interface IHomeProps {
-    pageInfo: IPageInfo
+interface IHomeProps extends RouteComponentProps {
+    pageInfo: IPageInfo,
+    dispatch:Dispatch
 }
 
 class Home extends React.Component<IHomeProps, IHomeState> {
@@ -17,10 +20,11 @@ class Home extends React.Component<IHomeProps, IHomeState> {
     }
 
     render() {
-        console.log(this.props.pageInfo);
         return (
             <div>
-                首页aaa
+                <Link to={'/login'}>
+                    首页
+                </Link>
             </div>
         );
     }
