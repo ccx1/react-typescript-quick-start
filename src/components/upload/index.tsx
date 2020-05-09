@@ -2,6 +2,23 @@ import * as React from 'react';
 import {Button, Icon, message, Modal, Progress} from "antd";
 import './index.less';
 import {getFileType, getHolderType, getTotalSize} from "@/components/upload/utils";
+import {fileRequest} from './uploadRequest'
+
+
+interface UploadOptions {
+    // 除file外的附加信息 别的字段
+    data: any,
+    // 文件上传的字段名
+    filename: string,
+    // 文件
+    action: string,
+    // 请求头
+    headers?: any,
+    // 跨域是否携带cookie
+    withCredentials?: boolean;
+}
+
+const statusType = ["success", "pending", "fail", "uploading"];
 
 interface UploadProps {
     visible: boolean;
@@ -12,14 +29,17 @@ interface UploadProps {
     // 单个文件的最大大小
     singleMaxSize?: number,
     accept: string
+    uploadOptions: UploadOptions
 }
+
+type statusString = (typeof statusType)[number]
 
 interface FileInfo {
     name: string,
     file: File,
     progress: number,
     // pending : 准备 , success ： 成功， fail：失败， uploading：上传中
-    status: string
+    status: statusString
 }
 
 interface UploadState {
@@ -30,6 +50,8 @@ export class UploadFile extends React.PureComponent<UploadProps, UploadState> {
 
 
     uploadInput: any = React.createRef();
+
+    fileRequestList: Array<any> = [];
 
     state = {
         fileList: []
@@ -53,7 +75,7 @@ export class UploadFile extends React.PureComponent<UploadProps, UploadState> {
             return {
                 name: item.name,
                 file: item,
-                progress: 50,
+                progress: 0,
                 status: 'pending'
             }
         });
@@ -79,8 +101,43 @@ export class UploadFile extends React.PureComponent<UploadProps, UploadState> {
         });
     };
 
-    uploadFile = file => {
+    uploadFile = () => {
+        const {fileList} = this.state;
 
+        fileList.forEach((item: FileInfo, index) => {
+            // 对上次上传成功和失败的文件不再尝试上传
+            if (item.status !== 'success' && item.status !== 'fail') {
+                this.uploadFileToRemote(item, index);
+            }
+        });
+    };
+
+    uploadFileToRemote = (info: FileInfo, index: number) => {
+        const {uploadOptions} = this.props;
+
+        const {fileList} = this.state;
+        const fileInfo: FileInfo = fileList[index];
+        this.fileRequestList[index] = fileRequest({
+            ...uploadOptions,
+            file: info.file,
+            onProgress: (progress) => {
+                fileInfo.progress = progress;
+                fileInfo.status = "uploading";
+                this.setState({fileList})
+            },
+            onError: () => {
+                // 回收
+                delete this.fileRequestList[index];
+                fileInfo.status = "fail";
+                this.setState({fileList})
+            },
+            onSuccess: () => {
+                // 回收
+                delete this.fileRequestList[index];
+                fileInfo.status = "success";
+                this.setState({fileList})
+            }
+        });
     };
 
     handleDrop = e => {
@@ -93,9 +150,8 @@ export class UploadFile extends React.PureComponent<UploadProps, UploadState> {
         const type = '.' + fileTypeArr[fileTypeArr.length - 1];
         let acceptList = accept.split(',');
         if (!fileList.length || !acceptList.includes(type.toLowerCase())) {
-            return false;
+            return;
         }
-
         this.pushFile(fileList);
     };
 
@@ -191,7 +247,7 @@ export class UploadFile extends React.PureComponent<UploadProps, UploadState> {
                         </ul>
                     </div>
                     <Button onClick={this.upFiles}>点击选择文件</Button>
-                    <Button onClick={this.uploadFile}>上传</Button>
+                    <Button type="primary" onClick={this.uploadFile}>上传</Button>
                 </Modal>
             </div>
         );

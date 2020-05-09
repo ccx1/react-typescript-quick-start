@@ -4,6 +4,7 @@ import {IPageInfo} from "@/reducer/BasicReducer";
 import {Link, RouteComponentProps} from "react-router-dom";
 import {Button, Modal} from "antd";
 import {UploadFile} from "@/components/upload";
+import * as config from '@/conts/conf';
 
 interface IHomeState {
     showUploadModal: boolean
@@ -35,6 +36,11 @@ class Home extends React.Component<IHomeProps, IHomeState> {
                     this.setState({showUploadModal: true})
                 }}>上传文件</Button>
                 <UploadFile
+                    uploadOptions={{
+                        data: {},
+                        filename: "file",
+                        action: config.GLOBAL_CONFIG.requestUrl.getJobInfo
+                    }}
                     accept={'.doc,.xlsx,.txt'}
                     visible={this.state.showUploadModal}
                     onOk={() => {

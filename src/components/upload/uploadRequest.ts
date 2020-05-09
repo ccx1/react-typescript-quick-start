@@ -46,18 +46,26 @@ function parseResponse(xhr) {
 // }
 
 export interface UploadRequestOptions {
+    // 除file外的附加信息 别的字段
     data: any,
+    // 文件上传的字段名
     filename: string,
+    // 文件
     file: File,
+    // 进度回调
     onProgress?: (progress: number) => void,
+    // 报错回调
     onError: (err: Error, res?: any) => void,
+    // 成功回调
     onSuccess: (res: any, xhr: XMLHttpRequest) => void,
     action: string,
+    // 请求头
     headers?: any,
-    withCredentials: boolean;
+    // 跨域是否携带cookie
+    withCredentials?: boolean;
 }
 
-export default function (option: UploadRequestOptions) {
+export function fileRequest(option: UploadRequestOptions) {
     const xhr = new XMLHttpRequest();
 
     const formData = new FormData();
