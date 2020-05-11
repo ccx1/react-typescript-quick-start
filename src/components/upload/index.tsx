@@ -18,7 +18,6 @@ interface UploadOptions {
     withCredentials?: boolean;
 }
 
-const statusType = ["success", "pending", "fail", "uploading"];
 
 interface UploadProps {
     visible: boolean;
@@ -28,18 +27,17 @@ interface UploadProps {
     totalSize?: number;
     // 单个文件的最大大小
     singleMaxSize?: number,
-    accept: string
+    accept: string,
     uploadOptions: UploadOptions
 }
 
-type statusString = (typeof statusType)[number]
 
 interface FileInfo {
     name: string,
     file: File,
     progress: number,
     // pending : 准备 , success ： 成功， fail：失败， uploading：上传中
-    status: statusString
+    status: string
 }
 
 interface UploadState {
@@ -123,19 +121,19 @@ export class UploadFile extends React.PureComponent<UploadProps, UploadState> {
             onProgress: (progress) => {
                 fileInfo.progress = progress;
                 fileInfo.status = "uploading";
-                this.setState({fileList})
+                this.setState({fileList: [...fileList]})
             },
             onError: () => {
                 // 回收
                 delete this.fileRequestList[index];
                 fileInfo.status = "fail";
-                this.setState({fileList})
+                this.setState({fileList: [...fileList]})
             },
             onSuccess: () => {
                 // 回收
                 delete this.fileRequestList[index];
                 fileInfo.status = "success";
-                this.setState({fileList})
+                this.setState({fileList: [...fileList]})
             }
         });
     };
@@ -143,7 +141,6 @@ export class UploadFile extends React.PureComponent<UploadProps, UploadState> {
     handleDrop = e => {
         e.preventDefault();
         let fileList = [...e.dataTransfer.files];
-        console.log(fileList);
         // 判断拖拽文件类型
         let accept = this.props.accept;
         const fileTypeArr = fileList[0] && fileList[0].name.split('.') || [];
