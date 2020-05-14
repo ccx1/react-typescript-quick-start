@@ -1,5 +1,5 @@
 
-import config from '../conts/conf';
+import {GLOBAL_CONFIG} from '../conts/conf';
 
 /**
  * 返回数据类型
@@ -97,7 +97,7 @@ export default {
     goLogin(loginPageUrl, url) {
         const currentUrl = url || window.location.href;
         const redirectUrl = window.location.protocol + '//' + window.location.host
-            + config.requestUrl.loginRedirect + '?redirect='
+            + GLOBAL_CONFIG.requestUrl.loginRedirect + '?redirect='
             + encodeURIComponent(currentUrl);
         window.location.href = `${loginPageUrl}?service=${encodeURIComponent(redirectUrl)}`;
     },

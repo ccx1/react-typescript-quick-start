@@ -1,7 +1,7 @@
 /**
  * @file 接口请求
  */
-import config from '../conts/conf';
+import {GLOBAL_CONFIG} from '../conts/conf';
 import common from '../utils/common';
 
 
@@ -26,14 +26,14 @@ function generateProgramJobCode(programId) {
 
 export const getProjects = () => (
     common.requestInPromise({
-        url: config.requestUrl.getProject
+        url: GLOBAL_CONFIG.requestUrl.getProject
     })
 );
 
 
 export const getJobInfo = params => {
     return common.requestInPromise({
-        url: config.requestUrl.getJobInfo,
+        url: GLOBAL_CONFIG.requestUrl.getJobInfo,
         type: 'POST',
         data: params
     });
