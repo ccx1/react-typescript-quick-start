@@ -2,9 +2,14 @@ import * as React from 'react';
 import {connect, DispatchProp} from "react-redux";
 import {IPageInfo} from "@/reducer/BasicReducer";
 import {Link, RouteComponentProps} from "react-router-dom";
-import {Button, Modal} from "antd";
+import {Button, Input, Modal, Select} from "antd";
 import {UploadFile} from "@/components/upload";
 import * as config from '@/conts/conf';
+import Slider from "@/slider/Sider";
+import * as action from '@/action/page_action'
+import TransferBar from "@/transferBar";
+
+const Option = Select.Option;
 
 interface IHomeState {
     showUploadModal: boolean
@@ -50,6 +55,12 @@ class Home extends React.Component<IHomeProps, IHomeState> {
                         this.setState({showUploadModal: false})
                     }}
                 />
+                {/*<Button onClick={()=>{*/}
+                {/*    this.props.dispatch(action.changeCollapsed(!this.props.pageInfo.collapsed))*/}
+                {/*}}>切换</Button>*/}
+                {/*<Slider/>*/}
+                <TransferBar/>
+
             </div>
         );
     }

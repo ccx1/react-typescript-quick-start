@@ -75,7 +75,7 @@ module.exports = {
             },
             {
                 test: /\.(jpg|jpeg|bmp|png|webp|gif)$/,
-                loader: 'url-loader',
+                loader: 'file-loader',
                 options: {
                     limit: 8 * 1024,
                     name: 'img/[name].[hash:8].[ext]',

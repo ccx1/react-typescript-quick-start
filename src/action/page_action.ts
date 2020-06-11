@@ -11,3 +11,10 @@ export const renderPageData = (initConfig) => {
         initConfig
     };
 };
+
+export const changeCollapsed = (collapsed) => {
+    return {
+        type: types.CHANGE_COLLAPSED,
+        collapsed
+    };
+};
