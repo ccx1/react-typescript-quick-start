@@ -8,7 +8,8 @@
     "dev": "cross-env NODE_ENV=development webpack-dev-server --config ./webpack.config.dev.js --hot --inline --colors --content-base",
     "build": "cross-env NODE_ENV=production webpack --config ./webpack.config.prod.js",
     "client-build": "cross-env NODE_ENV=production webpack --config ./webpack.config.client.js",
-    "dev-build": "cross-env NODE_ENV=production webpack --config ./webpack.config.dev.js"
+    "dev-build": "cross-env NODE_ENV=production webpack --config ./webpack.config.dev.js",
+    "package": "./app/build.sh"
   },
   "author": "",
   "license": "ISC",
@@ -27,7 +28,7 @@
     "@types/react-dom": "^16.9.8",
     "@types/react-redux": "^7.1.8",
     "@types/react-router-dom": "^5.1.5",
-    "antd": "^3.26.16",
+    "antd": "^4.5.4",
     "autoprefixer": "^9.7.6",
     "babel-polyfill": "^6.26.0",
     "babel-runtime": "^6.26.0",

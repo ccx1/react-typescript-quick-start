@@ -99,7 +99,9 @@ module.exports = {
         new webpack.ProvidePlugin({
             $: 'jquery'
         }),
-        new webpack.DefinePlugin({}),
+        new webpack.DefinePlugin({
+            CLIENT:"h5"
+        }),
         new HappyPack({
             id: 'unHappy',
             loaders: [{

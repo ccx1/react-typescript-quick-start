@@ -29,6 +29,7 @@
     "files": [
       "dist/",
       "./index.js",
+      "command/",
       "node_modules/",
       "logo.ico",
       "package.json"

@@ -1,5 +1,8 @@
-const { app, BrowserWindow,Menu } = require('electron')
+const CommandsRegistry = require( "./command");
+const { app, BrowserWindow,Menu,ipcMain } = require('electron')
 const path = require('path');
+require('./command');
+global.electron = require('electron')
 function createWindow () {
     // 创建浏览器窗口
     let win = new BrowserWindow({
@@ -21,6 +24,11 @@ function createWindow () {
         win.loadFile(path.resolve(__dirname, '../dist/index.html'));
     }
     // Menu.setApplicationMenu(null);
+
+    ipcMain.on("closeWindow",(event,args)=>{
+        // console.log("收到")
+        app.quit();
+    })
 
 }
 

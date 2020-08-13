@@ -1,10 +1,11 @@
-import {BrowserRouter} from 'react-router-dom';
+import {BrowserRouter, Route} from 'react-router-dom';
 import '@/App.less';
 import * as React from "react";
 import * as Routers from '@/conts/routers.ts';
 import renderRoutes from "@/utils/renderRoute.tsx";
 import {Provider} from "react-redux";
 import {Spin} from "antd";
+import ClientHeader from "@/components/clientHeader";
 
 // const {Suspense} = React;
 
@@ -15,6 +16,7 @@ const App: React.FC<any> = (props: any) => {
             {width: '100%', height: '100%', paddingTop: '20%'}}/>}>
             <BrowserRouter
                 basename={Routers.basename}>
+                <ClientHeader/>
                 {
                     renderRoutes(Routers.routers)
                 }
