@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server --config ./webpack.config.dev.js --hot --inline --colors --content-base",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --config ./webpack.config.dev.js --hot --inline --colors --content-base",
     "build": "cross-env NODE_ENV=production webpack --config ./webpack.config.prod.js",
-    "devBuild": "cross-env NODE_ENV=production webpack --config ./webpack.config.dev.js"
+    "client-build": "cross-env NODE_ENV=production webpack --config ./webpack.config.client.js",
+    "dev-build": "cross-env NODE_ENV=production webpack --config ./webpack.config.dev.js"
   },
   "author": "",
   "license": "ISC",

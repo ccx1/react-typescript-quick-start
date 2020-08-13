@@ -9,7 +9,7 @@ import {Spin} from "antd";
 // const {Suspense} = React;
 
 // 懒加载添加Suspense
-const App: React.FC = (props: any) => {
+const App: React.FC<any> = (props: any) => {
     return (<Provider store={props.store}>
         <React.Suspense fallback={<Spin style={
             {width: '100%', height: '100%', paddingTop: '20%'}}/>}>
