@@ -1,0 +1,48 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "homepage": ".",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cross-env NODE_ENV=development electron .",
+    "agile-build": "cross-env NODE_ENV=production electron-builder --win --ia32"
+  },
+  "build": {
+    "appId": "app",
+    "productName": "测试app",
+    "mac": {
+      "category": "com.example.test"
+    },
+    "win": {
+      "icon": "logo.ico",
+      "requestedExecutionLevel": "highestAvailable",
+      "target": "dir"
+    },
+    "electronDownload": {
+      "mirror": "https://npm.taobao.org/mirrors/electron/"
+    },
+    "directories": {
+      "output": "../output"
+    },
+    "files": [
+      "dist/",
+      "./index.js",
+      "command/",
+      "node_modules/",
+      "logo.ico",
+      "package.json"
+    ]
+  },
+  "author": "ccx",
+  "license": "ISC",
+  "dependencies": {
+    "cross-env": "^7.0.2"
+  },
+  "devDependencies": {
+    "electron": "^9.2.0",
+    "electron-rebuild": "^1.11.0",
+    "electron-builder": "^22.8.0"
+  }
+}

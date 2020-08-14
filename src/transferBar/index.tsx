@@ -185,6 +185,7 @@ export default class TransferBar extends React.Component {
         });
     };
 
+
     render() {
         const {targetKeys} = this.state;
         return (

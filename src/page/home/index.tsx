@@ -5,8 +5,6 @@ import {Link, RouteComponentProps} from "react-router-dom";
 import {Button, Input, Modal, Select} from "antd";
 import {UploadFile} from "@/components/upload";
 import * as config from '@/conts/conf';
-import Slider from "@/slider/Sider";
-import * as action from '@/action/page_action'
 import TransferBar from "@/transferBar";
 
 const Option = Select.Option;
